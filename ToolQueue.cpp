@@ -5,6 +5,9 @@
 
 class ToolQueue{
 
+	private:
+	const int MAX = 75;
+
     public:
     int packetsAdded;
     int packetsDropped;
@@ -19,8 +22,12 @@ class ToolQueue{
     }
 
     void insert(Packet p){
-        myStack.push(p);
-        packetsAdded++;
+		if(myStack.size() > MAX) {
+			packetsDropped++;
+		} else {
+        	myStack.push(p);
+        	packetsAdded++;
+		}
     }
 
     Packet peek(){
@@ -45,4 +52,8 @@ class ToolQueue{
             return temp;
         }
     }
+	
+	bool isEmpty() {
+		return myStack.isEmpty();
+	}
 }

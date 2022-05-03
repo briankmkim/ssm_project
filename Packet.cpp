@@ -3,14 +3,12 @@
 class Packet{
 
 public:
-    float entryTime;
-    float timeout;
-    float scanTime;
-    float timeProcessed;
+    double entryTime;
+    double scanTime;
+    double timeProcessed;
 
-    Packet(float e, float t, float s){
-        entryTime = e;
-        timeout = t;
+    Packet(double e, double s) {
+		entryTime = e;
         scanTime = s;
     }
 
