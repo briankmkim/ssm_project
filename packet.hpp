@@ -1,3 +1,5 @@
+#ifndef PACKET_HEADER
+#define PACKET_HEADER
 #include <string>
 
 class Packet{
@@ -49,3 +51,5 @@ public:
     }
 */
 };
+
+#endif

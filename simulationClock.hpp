@@ -1,3 +1,5 @@
+#ifndef SIM_CLOCK_HEADER
+#define SIM_CLOCK_HEADER
 #include <iostream>
 #include <chrono>
 #define Queue queue
@@ -32,3 +34,5 @@ class SimulationClock {
 	std::cout << "Time to analyze packet: " << std::chrono::duration<double, std::milli>(time).count() << " ms\n";
 	*/
 }
+
+#endif

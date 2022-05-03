@@ -1,3 +1,5 @@
+#ifndef TOOL_QUEUE_HEADER
+#define TOOL_QUEUE_HEADER
 #include <string>
 #include <Packet>
 #include <iostream>
@@ -9,47 +11,34 @@ class ToolQueue{
 	const int MAX = 75;
 
     public:
-    int packetsAdded;
     int packetsDropped;
-    int packetsProcessed;
+    // packetsProcessed is moving to each individual DPI tool object
     queue<Packet> myStack;
 
     ToolQueue(){
         packetsAdded = 0;
         packetsDropped = 0;
-        packetsProcessed = 0;
         myStack = new queue<Packet>();
     }
 
     void insert(Packet p){
-		if(myStack.size() > MAX) {
+		if(myStack.size() >= MAX) {
 			packetsDropped++;
 		} else {
         	myStack.push(p);
-        	packetsAdded++;
 		}
     }
 
+	// This is fairly dangerous and shouldn't ever be used.
     Packet peek(){
         return myStack.top();
     }
 
-    float nextTime(){
-        return myStack.top().timeout;
-    }
-
-    Packet nextValidPacket(float currentTime){
-        while(!myStack.top().canServicePacket(currentTime)){
-            packetsDropped++;
-            myStack.pop();
-        }
-        if(myStack.top() == null){
+    Packet getNextPacket(float currentTime) {
+        if(myStack.isEmpty()){
             return null;
-        }else{
-            packetsProcessed++;
-            Packet temp = myStack.top();
-            myStack.pop();
-            return temp;
+        } else {
+            return myStack.pop();
         }
     }
 	
@@ -57,3 +46,5 @@ class ToolQueue{
 		return myStack.isEmpty();
 	}
 }
+
+#endif
