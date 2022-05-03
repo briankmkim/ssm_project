@@ -5,20 +5,35 @@ class Packet{
 public:
     double entryTime;
     double scanTime;
-    double timeProcessed;
+	/* When would this field ever be used? When packets are popped off the queue
+	 * they will no longer be held in reference, so no use in trying to store
+	 * this value. If this is a metric we are interested in, we will need to save
+	 * in a separate data structure.
+	 */
+    //double timeProcessed;
 
     Packet(double e, double s) {
 		entryTime = e;
         scanTime = s;
     }
 
-    Packet(float e, float t, float s, float p){
+	// This constructor should never be called!
+	/*
+    Packet(double e, double s, double p){
         entryTime = e;
-        timeout = t;
         scanTime = s;
         timeProcessed = p;
     }
+	*/
 
+	double getScanTime() {
+		return this.scanTime;
+	}
+
+	double getEntryTime() {
+		return this.entryTime;
+	}
+/*
     bool canServicePacket(float time){
         if(time > entryTime + timeout){
             return false;
@@ -32,4 +47,5 @@ public:
             timeProcessed = time;
         }
     }
+*/
 };
