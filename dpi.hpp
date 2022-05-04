@@ -1,6 +1,8 @@
 #ifndef DPI_HPP_INCLUDED
 #define DPI_HPP_INCLUDED
 
+#include "packet.hpp"
+
 class DPI
 {
 private:
@@ -36,14 +38,16 @@ public:
         return false;
     }
 
-    //given a packet and current time, increase idle time, set next time avail, and change the status to notAvailable
+    //given a packet and current time, increase idle time, set next time avail, and
+	//increment packetsScanned 
 
     void dpiStatus (Packet p, double time)
     {
-        this.idleTime += (time - this.getTimeNextAvail());
+        idleTime += (time - getTimeNextAvail());
 
-        this.timeNextAvailable = (time + p.getScanTime());
-
+        timeNextAvailable = (time + p.getScanTime());
+		
+		packetsScanned++;
     }
 
 };

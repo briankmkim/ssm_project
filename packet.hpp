@@ -13,6 +13,7 @@ public:
 	 * in a separate data structure.
 	 */
     //double timeProcessed;
+	Packet() {}
 
     Packet(double e, double s) {
 		entryTime = e;
@@ -29,11 +30,11 @@ public:
 	*/
 
 	double getScanTime() {
-		return this.scanTime;
+		return scanTime;
 	}
 
 	double getEntryTime() {
-		return this.entryTime;
+		return entryTime;
 	}
 /*
     bool canServicePacket(float time){

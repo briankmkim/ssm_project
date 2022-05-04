@@ -14,11 +14,11 @@ class SimulationClock {
 			time = 0.0;
 		}
 
-		getTime() {
+		double getTime() {
 			return time;
 		}
 
-		advanceClock(double addTime) {
+		void advanceClock(double addTime) {
 			time += addTime;
 		}
 
@@ -33,6 +33,6 @@ class SimulationClock {
 	auto time = end - start;
 	std::cout << "Time to analyze packet: " << std::chrono::duration<double, std::milli>(time).count() << " ms\n";
 	*/
-}
+};
 
 #endif

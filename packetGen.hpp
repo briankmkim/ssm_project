@@ -9,50 +9,66 @@
 #include <random>
 #include <queue>
 
+using namespace std;
+
 class PacketGen {
 	private:
 		const double ENT_MEAN = 0.0156143;
 		const double ENT_STD_DEV = 0.0861771;
 		const double ENT_RANGE = 0.999998;
+		const double SCAN_MIN = 0.000010;
 		const double SCAN_MAX = 0.000027;
 
 		double endTime;
-		Queue<Packet> packets;
+		queue<Packet> packets;
 		
 
 	public:
 		PacketGen(double end) {
-			this.endTime = end;
-			this.packets = new Queue<Packet>();
+			endTime = end;
 		};
 
 		double nextPacketArrival();
 		Packet getNextPacket();
+		void pop();
 		void generate();
+		bool outOfPackets();
+};
+
+double PacketGen::nextPacketArrival() {
+	return packets.front().getEntryTime();
 }
 
-public double nextPacketArrival() {
-	return this.packets.top().getEntryTime();
+Packet PacketGen::getNextPacket() {
+	return packets.front();
 }
 
-public Packet getNextPacket() {
-	return this.packets.pop();
+void PacketGen::pop() {
+	packets.pop();
 }
 
-public void generate() {
+void PacketGen::generate() {
 	std::default_random_engine generator;
-	std::normal_distribution<double> entdist(MEAN, STD_DEV);
-	std::uniform_real_distribution<double> scandist(0, SCAN_MAX);
+	std::normal_distribution<double> entdist(ENT_MEAN, ENT_STD_DEV);
+	std::uniform_real_distribution<double> scandist(SCAN_MIN, SCAN_MAX);
 
 	double time = 0;
+	double nextTime = 0;
 
 	while(time < endTime) {
-		this.packets.push(
-			new Packet(time, scandist(generator)));
-
-		time += entdist(generator);
+		packets.emplace(time, scandist(generator));
+		
+		nextTime = entdist(generator);
+		while(nextTime > 0.999998) {
+			nextTime = entdist(generator);
+		}
+		time += nextTime;
 	}
 	
+}
+
+bool PacketGen::outOfPackets() {
+	return packets.empty();
 }
 
 #endif

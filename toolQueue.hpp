@@ -1,14 +1,18 @@
 #ifndef TOOL_QUEUE_HEADER
 #define TOOL_QUEUE_HEADER
 #include <string>
-#include <Packet>
 #include <iostream>
 #include <queue>
+
+#include "packet.hpp"
+
+using namespace std;
 
 class ToolQueue{
 
 	private:
 	const int MAX = 75;
+	
 
     public:
     int packetsDropped;
@@ -16,9 +20,7 @@ class ToolQueue{
     queue<Packet> myStack;
 
     ToolQueue(){
-        packetsAdded = 0;
         packetsDropped = 0;
-        myStack = new queue<Packet>();
     }
 
     void insert(Packet p){
@@ -29,22 +31,28 @@ class ToolQueue{
 		}
     }
 
-	// This is fairly dangerous and shouldn't ever be used.
+	// This is fairly dangerous to the simulation and shouldn't ever be used.
+	/*
     Packet peek(){
         return myStack.top();
     }
+	*/
 
-    Packet getNextPacket(float currentTime) {
-        if(myStack.isEmpty()){
-            return null;
-        } else {
-            return myStack.pop();
-        }
+    Packet getNextPacket() {
+		return myStack.front();
     }
+
+	void popStack() {
+		myStack.pop();
+	}
 	
 	bool isEmpty() {
-		return myStack.isEmpty();
+		return myStack.empty();
 	}
-}
+
+	int getPacketsDropped() {
+		return packetsDropped;
+	}
+};
 
 #endif
