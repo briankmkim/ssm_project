@@ -8,6 +8,7 @@
 #include "packet.hpp"
 #include <random>
 #include <queue>
+#include <chrono>
 
 using namespace std;
 
@@ -33,6 +34,7 @@ class PacketGen {
 		void pop();
 		void generate();
 		bool outOfPackets();
+		void reset();
 };
 
 double PacketGen::nextPacketArrival() {
@@ -49,6 +51,7 @@ void PacketGen::pop() {
 
 void PacketGen::generate() {
 	std::default_random_engine generator;
+	generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
 	std::normal_distribution<double> entdist(ENT_MEAN, ENT_STD_DEV);
 	std::uniform_real_distribution<double> scandist(SCAN_MIN, SCAN_MAX);
 
@@ -62,13 +65,18 @@ void PacketGen::generate() {
 		while(nextTime > 0.999998) {
 			nextTime = entdist(generator);
 		}
-		time += nextTime;
+		time = time + nextTime;
 	}
 	
 }
 
 bool PacketGen::outOfPackets() {
 	return packets.empty();
+}
+
+void PacketGen::reset() {
+	while(!packets.empty())
+		packets.pop();
 }
 
 #endif

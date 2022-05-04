@@ -53,6 +53,10 @@ class ToolQueue{
 	int getPacketsDropped() {
 		return packetsDropped;
 	}
+
+	void reset() {
+		packetsDropped = 0;
+	}
 };
 
 #endif

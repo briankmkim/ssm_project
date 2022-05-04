@@ -18,8 +18,8 @@ class SimulationClock {
 			return time;
 		}
 
-		void advanceClock(double addTime) {
-			time += addTime;
+		void advanceClock(double newTime) {
+			time = newTime;
 		}
 
 	/*

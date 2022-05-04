@@ -15,6 +15,12 @@ private:
 
 public:
 
+	DPI() {
+		idleTime = 0;
+		timeNextAvailable = 0;
+		packetsScanned = 0;
+	}
+
     double getIdleTime()
     {
         return idleTime;
@@ -43,12 +49,23 @@ public:
 
     void dpiStatus (Packet p, double time)
     {
-        idleTime += (time - getTimeNextAvail());
-
-        timeNextAvailable = (time + p.getScanTime());
-		
+		updateIdleTime(time);
+		timeNextAvailable = time + p.getScanTime();
 		packetsScanned++;
     }
+
+	void updateIdleTime(double time) {
+		if(time > timeNextAvailable) {
+			idleTime = idleTime + (time - timeNextAvailable);
+			timeNextAvailable = time;
+		}
+	}
+
+	void reset() {
+		idleTime = 0;
+		timeNextAvailable = 0;
+		packetsScanned = 0;
+	}
 
 };
 
