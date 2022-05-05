@@ -62,7 +62,7 @@ void PacketGen::generate() {
 		packets.emplace(time, scandist(generator));
 		
 		nextTime = entdist(generator);
-		while(nextTime > 0.999998) {
+		while(nextTime > ENT_RANGE || nextTime < 0) {
 			nextTime = entdist(generator);
 		}
 		time = time + nextTime;
